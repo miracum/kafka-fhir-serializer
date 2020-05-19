@@ -1,0 +1,127 @@
+plugins {
+    id "java-library"
+    id "maven-publish"
+    id "signing"
+    id "com.diffplug.spotless" version "5.15.1"
+    id "checkstyle"
+    id "jacoco"
+}
+
+group = "org.miracum"
+version = "1.0.2-SNAPSHOT"
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+repositories {
+    // Use jcenter for resolving dependencies.
+    // You can declare any Maven/Ivy/file repository here.
+    jcenter()
+}
+
+dependencies {
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation "ca.uhn.hapi.fhir:hapi-fhir-base:5.5.1"
+    implementation "org.apache.kafka:kafka-clients:2.8.1"
+
+    // Use JUnit Jupiter API for testing.
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.0"
+    testImplementation "ca.uhn.hapi.fhir:hapi-fhir-structures-r4:5.5.1"
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.6.0"
+}
+
+test {
+    // Use junit platform for unit tests
+    useJUnitPlatform()
+}
+
+checkstyle {
+    toolVersion "8.45"
+    configFile = file(".checkstyle/checkstyle.xml")
+}
+
+jacoco {
+    toolVersion = "0.8.6"
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+        xml.enabled true
+        csv.enabled true
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = "kafka-fhir-serializer"
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "Kafka FHIR® Serializer"
+                description = "Support for serializing and deserializing FHIR® resources in Apache Kafka."
+                url = "https://github.com/miracum/kafka-fhir-serializer"
+                licenses {
+                    license {
+                        name = "Apache 2.0"
+                        url = "https://opensource.org/licenses/Apache-2.0"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "MIRACUM"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/miracum/kafka-fhir-serializer.git"
+                    developerConnection = "scm:git:ssh://github.com:miracum/kafka-fhir-serializer.git"
+                    url = "https://github.com/miracum/kafka-fhir-serializer"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
+            }
+        }
+    }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption("html5", true)
+    }
+}
+
+signing {
+    def signingKey = System.getenv("MIRACUM_SIGNING_KEY")
+    def signingPassword = System.getenv("MIRACUM_SIGNING_KEY_PASSPHRASE")
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign publishing.publications.mavenJava
+}
+
+spotless {
+    java {
+        importOrder()
+        removeUnusedImports()
+        googleJavaFormat()
+    }
+}
