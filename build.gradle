@@ -1,11 +1,16 @@
 plugins {
-    // Apply the java-library plugin to add support for Java Library
     id "java-library"
     id "maven-publish"
+    id "signing"
 }
 
 group = "org.miracum"
 version = "1.0.0"
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
 repositories {
     // Use jcenter for resolving dependencies.
@@ -32,4 +37,65 @@ dependencies {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = "kafka-fhir-serializer"
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            pom {
+                name = "Kafka FHIR® Serializer"
+                description = "Support for serializing and deserializing FHIR® resources in Apache Kafka."
+                url = "https://github.com/miracum/kafka-fhir-serializer"
+                licenses {
+                    license {
+                        name = "GNU General Public License v3.0"
+                        url = "https://www.gnu.org/licenses/gpl-3.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'chgl'
+                        name = 'Christian Gulden'
+                        email = 'christian.gulden@fau.de'
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/miracum/kafka-fhir-serializer.git"
+                    developerConnection = "scm:git:ssh://github.com:miracum/kafka-fhir-serializer.git"
+                    url = "https://github.com/miracum/kafka-fhir-serializer/tree/master"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots/"
+            url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = ossrhUsername
+                password = ossrhPassword
+            }
+        }
+    }
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption("html5", true)
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
