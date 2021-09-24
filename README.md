@@ -1,15 +1,46 @@
-# kafka-fhir-serializer
+# Kafka® FHIR® Serializer
 
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-## Usage
+Kafka De-/Serializer for FHIR® resources in JSON format.
+
+## Installation
+
+### Maven
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer -->
+<dependency>
+    <groupId>org.miracum</groupId>
+    <artifactId>kafka-fhir-serializer</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+### Gradle
 
 ```groovy
 // https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
-implementation "org.miracum:kafka-fhir-serializer:1.0.1"
+implementation "org.miracum:kafka-fhir-serializer:1.0.2"
 ```
 
-## Release
+## Usage
+
+You can find a real-life usage of this library over at <https://github.com/miracum/fhir-gateway>.
+
+In Spring Boot:
+
+```yaml
+spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.miracum.kafka.serializers.KafkaFhirSerializer
+```
+
+## Development
+
+### Release
 
 See <https://central.sonatype.org/publish/publish-guide/> for a general overview.
 
