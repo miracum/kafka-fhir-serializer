@@ -14,15 +14,15 @@ public class KafkaFhirSerializer implements Serializer<IBaseResource> {
   private IParser fhirParser = FhirContext.forR4().newJsonParser();
 
   @Override
-  public void configure(Map<String, ?> configs, boolean isKey) {
+  public void configure(final Map<String, ?> configs, final boolean isKey) {
     if (configs.containsKey(CONFIG_FHIR_CONTEXT_KEY)) {
-      var context = (FhirContext) configs.get(CONFIG_FHIR_CONTEXT_KEY);
+      final var context = (FhirContext) configs.get(CONFIG_FHIR_CONTEXT_KEY);
       this.fhirParser = context.newJsonParser();
     }
   }
 
   @Override
-  public byte[] serialize(String topic, IBaseResource data) {
+  public byte[] serialize(final String topic, final IBaseResource data) {
     if (data == null) {
       return null;
     }
@@ -31,10 +31,12 @@ public class KafkaFhirSerializer implements Serializer<IBaseResource> {
   }
 
   @Override
-  public byte[] serialize(String topic, Headers headers, IBaseResource data) {
+  public byte[] serialize(final String topic, final Headers headers, final IBaseResource data) {
     return serialize(topic, data);
   }
 
   @Override
-  public void close() {}
+  public void close() {
+    // empty
+  }
 }
