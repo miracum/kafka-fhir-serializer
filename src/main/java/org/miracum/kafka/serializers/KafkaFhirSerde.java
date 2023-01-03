@@ -13,7 +13,7 @@ public class KafkaFhirSerde implements Serde<IBaseResource> {
   private final KafkaFhirDeserializer deserializer = new KafkaFhirDeserializer();
 
   @Override
-  public void configure(Map<String, ?> configs, boolean isKey) {
+  public void configure(final Map<String, ?> configs, final boolean isKey) {
     this.serializer.configure(configs, isKey);
     this.deserializer.configure(configs, isKey);
   }

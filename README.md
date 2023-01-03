@@ -1,6 +1,7 @@
 # Kafka® FHIR® Serializer
 
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/miracum/kafka-fhir-serializer/badge)](https://api.securityscorecards.dev/projects/github.com/miracum/kafka-fhir-serializer)
 
 Kafka De-/Serializer for FHIR® resources in JSON format.
 
@@ -26,7 +27,8 @@ implementation "org.miracum:kafka-fhir-serializer:1.0.2"
 
 ## Usage
 
-You can find a real-life usage of this library over at <https://github.com/miracum/fhir-gateway>.
+You can find a real-life usage of this library over at <https://github.com/miracum/fhir-gateway> and
+<https://github.com/miracum/kafka-fhir-to-server>.
 
 In Spring Boot:
 

@@ -6,11 +6,16 @@ import org.hl7.fhir.r4.model.Patient;
 import org.junit.jupiter.api.Test;
 
 class KafkaFhirSerdeTest {
-  @Test
-  void serialize_withEmptyPatient_returnsNonEmptyBytes() {
-    var sut = new KafkaFhirSerde();
 
-    var bytes = sut.serializer().serialize(null, new Patient());
+  public KafkaFhirSerdeTest() {
+    // empty
+  }
+
+  @Test
+  public void serializeWithEmptyPatientReturnsNonEmptyBytes() {
+    final var sut = new KafkaFhirSerde();
+
+    final var bytes = sut.serializer().serialize(null, new Patient());
 
     assertTrue(bytes.length > 0);
 
