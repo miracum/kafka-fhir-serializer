@@ -55,9 +55,11 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        html.enabled true
-        xml.enabled true
-        csv.enabled true
+        csv.outputLocation = file(layout.buildDirectory.dir('jacoco/coverage.csv'))
+        csv.required = true
+        html.outputLocation = file(layout.buildDirectory.dir('jacoco/coverage.html'))
+        html.required = true
+        xml.required = false
     }
 }
 
