@@ -18,12 +18,12 @@ jobs:
       security-events: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
         with:
           fetch-depth: 0
 
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@9ab158e8597f3b310480b9a69402b419bc03dbd5 # 0.8.0
+        uses: aquasecurity/trivy-action@b43daad0c3c96202fc5800b511dfae8e6ecce864 # 0.11.0
         with:
           scan-type: "fs"
           ignore-unfixed: true
@@ -33,24 +33,24 @@ jobs:
           severity: "CRITICAL"
 
       - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@959cbb7472c4d4ad70cdfe6f4976053fe48ab394 # v2.1.37
+        uses: github/codeql-action/upload-sarif@83f0fe6c4988d98a455712a27f0255212bba9bd4 # v2.3.6
         with:
           sarif_file: "trivy-results.sarif"
 
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3
 
       - name: Set up JDK 11
-        uses: actions/setup-java@1df8dbefe2a8cbc99770194893dd902763bee34b # v3
+        uses: actions/setup-java@5ffc13f4174014e2d4d4572b3d74c3fa61aeb2c2 # v3
         with:
           java-version: "11"
           distribution: "adopt"
           cache: gradle
 
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@3fbe033aaae657f011f88f29be9e65ed26bd29ef # v2
+        uses: gradle/gradle-build-action@749f47bda3e44aa060e82d7b3ef7e40d953bd629 # v2
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@55e685c48d84285a5b0418cd094606e199cca3b6 # v1
@@ -58,7 +58,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
-      - uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb # v3.1.1
+      - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
         with:
           name: package
           path: build/libs
@@ -70,7 +70,7 @@ jobs:
         run: ./gradlew jacocoTestReport
 
       - name: Generate JaCoCo Badge
-        uses: cicirello/jacoco-badge-generator@2dc380ee1533a13cd53ac62743c847842212407b # v2
+        uses: cicirello/jacoco-badge-generator@a0c1eb19a496308187341ed2a736ef5df78b7003 # v2
         with:
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
 
