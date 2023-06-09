@@ -10,7 +10,7 @@ plugins {
 }
 
 group = 'org.miracum'
-version = '1.0.4-SNAPSHOT'
+version = '1.0.4'
 
 java {
     withJavadocJar()
@@ -29,12 +29,6 @@ dependencies {
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.6.1'
-
-    // workaround for https://github.com/FasterXML/jackson-databind/issues/3627
-    // via https://github.com/hapifhir/hapi-fhir/pull/4308
-    constraints {
-        implementation 'com.fasterxml.jackson:jackson-bom:2.15.2'
-    }
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'

@@ -14,7 +14,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 <dependency>
     <groupId>org.miracum</groupId>
     <artifactId>kafka-fhir-serializer</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
