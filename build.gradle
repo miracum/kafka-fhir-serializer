@@ -23,12 +23,12 @@ repositories {
 
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:6.8.3'
-    implementation 'org.apache.kafka:kafka-clients:3.5.1'
+    implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:6.8.5'
+    implementation 'org.apache.kafka:kafka-clients:3.6.0'
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-    testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.8.3'
+    testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.8.5'
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
@@ -45,7 +45,7 @@ checkstyle {
 }
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = "0.8.11"
 }
 
 jacocoTestReport {
