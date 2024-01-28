@@ -14,11 +14,11 @@ jobs:
   check-links:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: run lychee link checker
         id: lychee
-        uses: lycheeverse/lychee-action@ec3ed119d4f44ad2673a7232460dc7dff59d2421 # v1.8.0
+        uses: lycheeverse/lychee-action@eeb9cb63fe093e4d17e5853314dbf862bb35f28d # v1.9.2
         with:
           fail: true
           args: "--config=.lychee.toml ."
