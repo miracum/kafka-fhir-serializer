@@ -28,7 +28,7 @@ dependencies {
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
-    testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:6.8.5'
+    testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:7.0.0'
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
