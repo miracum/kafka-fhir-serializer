@@ -4,8 +4,7 @@ plugins {
     id 'java-library'
     id 'maven-publish'
     id 'signing'
-    id 'com.diffplug.spotless' version '6.22.0'
-    id 'checkstyle'
+    id 'com.diffplug.spotless' version '6.25.0'
     id 'jacoco'
 }
 
@@ -24,24 +23,19 @@ repositories {
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:7.0.0'
-    implementation 'org.apache.kafka:kafka-clients:3.6.0'
+    implementation 'org.apache.kafka:kafka-clients:3.6.1'
 
     // Use JUnit Jupiter API for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:7.0.0'
 
     // Use JUnit Jupiter Engine for testing.
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
 }
 
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
-}
-
-checkstyle {
-    toolVersion '10.12.4'
-    configFile = file('.checkstyle/checkstyle.xml')
 }
 
 jacoco {
