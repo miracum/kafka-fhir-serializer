@@ -5,7 +5,6 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id 'com.diffplug.spotless' version '6.25.0'
-    id 'checkstyle'
     id 'jacoco'
 }
 
@@ -37,11 +36,6 @@ dependencies {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
-}
-
-checkstyle {
-    toolVersion '10.13.0'
-    configFile = file('.checkstyle/checkstyle.xml')
 }
 
 jacoco {
