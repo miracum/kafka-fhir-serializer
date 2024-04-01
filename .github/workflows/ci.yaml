@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: Set up JDK
-        uses: actions/setup-java@387ac29b308b003ca37ba93a6cab5eb57c8f5f93 # v4.0.0
+        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # v4.2.1
         with:
           java-version: "17"
           distribution: "temurin"
@@ -55,7 +55,7 @@ jobs:
           MIRACUM_SIGNING_KEY_PASSPHRASE: ${{ secrets.MIRACUM_SIGNING_KEY_PASSPHRASE }}
 
   lint:
-    uses: miracum/.github/.github/workflows/standard-lint.yaml@d09a237ae62959d3cf89d526a035fbd9d9d816ee # v1.5.8
+    uses: miracum/.github/.github/workflows/standard-lint.yaml@cc6fa0f9913128e1b27770bcd43df2c19e547a25 # v1.6.2
     permissions:
       contents: read
       pull-requests: write
