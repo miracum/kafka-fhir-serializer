@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'org.miracum'
-version = '1.0.6'
+version = '1.0.7-SNAPSHOT'
 
 java {
     withJavadocJar()
