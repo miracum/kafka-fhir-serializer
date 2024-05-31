@@ -3,7 +3,6 @@ package org.miracum.kafka.serializers;
 import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.IParser;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import org.apache.kafka.common.header.Headers;
@@ -11,13 +10,12 @@ import org.apache.kafka.common.serialization.Deserializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 public class KafkaFhirDeserializer implements Deserializer<IBaseResource> {
-  private IParser fhirParser = FhirContext.forR4().newJsonParser();
+  private FhirContext fhirContext = FhirContext.forR4();
 
   @Override
   public void configure(final Map<String, ?> configs, final boolean isKey) {
     if (configs.containsKey(CONFIG_FHIR_CONTEXT_KEY)) {
-      final var context = (FhirContext) configs.get(CONFIG_FHIR_CONTEXT_KEY);
-      this.fhirParser = context.newJsonParser();
+      fhirContext = (FhirContext) configs.get(CONFIG_FHIR_CONTEXT_KEY);
     }
   }
 
@@ -27,7 +25,7 @@ public class KafkaFhirDeserializer implements Deserializer<IBaseResource> {
       return null;
     }
 
-    return fhirParser.parseResource(new ByteArrayInputStream(data));
+    return fhirContext.newJsonParser().parseResource(new ByteArrayInputStream(data));
   }
 
   @Override
