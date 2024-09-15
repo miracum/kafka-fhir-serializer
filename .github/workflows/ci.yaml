@@ -14,22 +14,22 @@ jobs:
   build:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Set up JDK
-        uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9 # v4.2.1
+        uses: actions/setup-java@2dfa2011c5b2a0f1489bf9e433881c92c1631f88 # v4.3.0
         with:
           java-version: "17"
           distribution: "temurin"
           cache: "gradle"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@db19848a5fa7950289d3668fb053140cf3028d43 # v3.3.2
+        uses: gradle/actions/setup-gradle@d9c87d481d55275bb5441eef3fe0e46805f9ef70 # v3.5.0
 
       - name: Build with Gradle
         run: ./gradlew build
 
-      - uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+      - uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4.4.0
         with:
           name: package
           path: build/libs
@@ -55,7 +55,7 @@ jobs:
           MIRACUM_SIGNING_KEY_PASSPHRASE: ${{ secrets.MIRACUM_SIGNING_KEY_PASSPHRASE }}
 
   lint:
-    uses: miracum/.github/.github/workflows/standard-lint.yaml@614627d88ea531acb0b0f321f507b2c7c91a721d # v1.9.1
+    uses: miracum/.github/.github/workflows/standard-lint.yaml@b2389048770aa5b9ed439810bf84911fbb07f645 # v1.12.3
     permissions:
       contents: read
       pull-requests: write
