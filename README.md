@@ -1,7 +1,7 @@
 # Kafka® FHIR® Serializer
 
 [![Apache-2.0 license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/miracum/kafka-fhir-serializer/badge)](https://api.securityscorecards.dev/projects/github.com/miracum/kafka-fhir-serializer)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/miracum/kafka-fhir-serializer/badge)](https://scorecard.dev/viewer/?uri=github.com/miracum/kafka-fhir-serializer)
 
 Kafka De-/Serializer for FHIR® resources in JSON format.
 
@@ -14,7 +14,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 <dependency>
     <groupId>org.miracum</groupId>
     <artifactId>kafka-fhir-serializer</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 
 ```groovy
 // https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
-implementation "org.miracum:kafka-fhir-serializer:1.0.6"
+implementation "org.miracum:kafka-fhir-serializer:1.0.7"
 ```
 
 ## Usage
