@@ -13,7 +13,7 @@ class KafkaFhirSerdeTest {
   }
 
   @Test
-  public void serialize_withEmptyPatient_returnsEmptyPatientJson() {
+  void serialize_withEmptyPatient_returnsEmptyPatientJson() {
     final var sut = new KafkaFhirSerde();
 
     final var bytes = sut.serializer().serialize(null, new Patient());
@@ -27,7 +27,7 @@ class KafkaFhirSerdeTest {
   }
 
   @Test
-  public void deserialize_withGivenPatientResourceAsJson_returnsPatientObject() {
+  void deserialize_withGivenPatientResourceAsJson_returnsPatientObject() {
     final var sut = new KafkaFhirSerde();
 
     var jsonBytes =
