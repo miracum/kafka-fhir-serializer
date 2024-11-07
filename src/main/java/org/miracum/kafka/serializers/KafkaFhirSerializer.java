@@ -5,12 +5,20 @@ import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_K
 import ca.uhn.fhir.context.FhirContext;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Objects;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 public class KafkaFhirSerializer implements Serializer<IBaseResource> {
-  private FhirContext fhirContext = FhirContext.forR4();
+  private static final FhirContext defaultFhirContext;
+
+  // static initialization blocks are executed by the JVM in a thread-safe manner.
+  static {
+    defaultFhirContext = FhirContext.forR4();
+  }
+
+  private FhirContext fhirContext = defaultFhirContext;
 
   @Override
   public void configure(final Map<String, ?> configs, final boolean isKey) {
@@ -21,9 +29,7 @@ public class KafkaFhirSerializer implements Serializer<IBaseResource> {
 
   @Override
   public byte[] serialize(final String topic, final IBaseResource data) {
-    if (data == null) {
-      return null;
-    }
+    Objects.requireNonNull(data);
 
     return fhirContext
         .newJsonParser()

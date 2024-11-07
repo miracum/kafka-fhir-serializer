@@ -10,7 +10,14 @@ import org.apache.kafka.common.serialization.Deserializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 public class KafkaFhirDeserializer implements Deserializer<IBaseResource> {
-  private FhirContext fhirContext = FhirContext.forR4();
+  private static final FhirContext defaultFhirContext;
+
+  // static initialization blocks are executed by the JVM in a thread-safe manner.
+  static {
+    defaultFhirContext = FhirContext.forR4();
+  }
+
+  private FhirContext fhirContext = defaultFhirContext;
 
   @Override
   public void configure(final Map<String, ?> configs, final boolean isKey) {
@@ -34,5 +41,7 @@ public class KafkaFhirDeserializer implements Deserializer<IBaseResource> {
   }
 
   @Override
-  public void close() {}
+  public void close() {
+    // empty
+  }
 }

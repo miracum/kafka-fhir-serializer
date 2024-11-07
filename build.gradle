@@ -44,11 +44,9 @@ jacoco {
 
 jacocoTestReport {
     reports {
-        csv.outputLocation = file(layout.buildDirectory.dir('reports/jacoco/test/jacocoTestReport.csv'))
         csv.required = true
-        html.outputLocation = file(layout.buildDirectory.dir('reports/jacoco/test/jacocoTestReport.html'))
         html.required = true
-        xml.required = false
+        xml.required = true
     }
 }
 
