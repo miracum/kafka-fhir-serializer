@@ -17,21 +17,21 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Set up JDK
-        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
         with:
           java-version: "17"
           distribution: "temurin"
           cache: "gradle"
 
-      - uses: gradle/actions/wrapper-validation@0bdd871935719febd78681f197cd39af5b6e16a6 # v4.2.2
+      - uses: gradle/actions/wrapper-validation@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4.3.1
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@0bdd871935719febd78681f197cd39af5b6e16a6 # v4.2.2
+        uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4.3.1
 
       - name: Build with Gradle
         run: ./gradlew build
 
-      - uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08 # v4.6.0
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: package
           path: build/libs
@@ -57,7 +57,7 @@ jobs:
           MIRACUM_SIGNING_KEY_PASSPHRASE: ${{ secrets.MIRACUM_SIGNING_KEY_PASSPHRASE }}
 
   lint:
-    uses: miracum/.github/.github/workflows/standard-lint.yaml@4cc91eaee2ea6c0513da1195a6b53bb9c16f5666 # v1.13.1
+    uses: miracum/.github/.github/workflows/standard-lint.yaml@ed920798bb7e30616049c9b5f7e3d6545d93fbb0 # v1.16.8
     permissions:
       contents: read
       pull-requests: write
