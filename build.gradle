@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'org.miracum'
-version = '2.0.1-SNAPSHOT'
+version = '2.0.1'
 
 java {
     withJavadocJar()
@@ -88,8 +88,8 @@ publishing {
     }
     repositories {
         maven {
-            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
+            def releasesRepoUrl = 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/'
+            def snapshotsRepoUrl = 'https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots/'
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
             credentials {
                 username = System.getenv('OSSRH_USERNAME')
