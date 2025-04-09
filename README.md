@@ -14,7 +14,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 <dependency>
     <groupId>org.miracum</groupId>
     <artifactId>kafka-fhir-serializer</artifactId>
-    <version>1.0.8</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 
 ```groovy
 // https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
-implementation "org.miracum:kafka-fhir-serializer:1.0.8"
+implementation "org.miracum:kafka-fhir-serializer:2.0.0"
 ```
 
 ## Usage
@@ -47,7 +47,8 @@ spring:
 See <https://central.sonatype.org/publish/publish-guide/> for a general overview.
 
 1. update version in `build.gradle` to a release version (ie. without the `-SNAPSHOT`) and update the version in the `README.md` as well
-1. create a GitHub release
+1. commit the changes
+1. create a GitHub release for the previous commit
 1. the CI should now run and publish a new package
 1. follow the instructions over at <https://central.sonatype.org/publish/release/> to promote the package from staging to the release repo
 1. increment the version number in `build.gradle` to a new snapshot version (i.e. 2.0.0-SNAPSHOT) and continue development
