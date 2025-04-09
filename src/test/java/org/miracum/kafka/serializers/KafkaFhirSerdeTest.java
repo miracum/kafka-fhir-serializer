@@ -20,7 +20,9 @@ class KafkaFhirSerdeTest {
 
     var json = new String(bytes, StandardCharsets.UTF_8);
 
-    assertEquals(json, """
+    assertEquals(
+        json,
+        """
         {"resourceType":"Patient"}""");
 
     sut.close();
