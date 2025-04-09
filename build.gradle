@@ -26,11 +26,11 @@ dependencies {
     implementation 'org.apache.kafka:kafka-clients:4.0.0'
 
     // Use JUnit Jupiter API for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.11.4'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.12.1'
     testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:8.0.0'
 
     // Use JUnit Jupiter Engine for testing.
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.11.4'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.12.1'
 }
 
 test {
@@ -39,7 +39,7 @@ test {
 }
 
 jacoco {
-    toolVersion = "0.8.12"
+    toolVersion = "0.8.13"
 }
 
 jacocoTestReport {
