@@ -7,23 +7,31 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 
 ## Installation
 
+### Gradle
+
+<!-- x-release-please-start-version -->
+
+```groovy
+// https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
+implementation "org.miracum:kafka-fhir-serializer:2.0.2"
+```
+
+<!-- x-release-please-end -->
+
 ### Maven
+
+<!-- x-release-please-start-version -->
 
 ```xml
 <!-- https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer -->
 <dependency>
     <groupId>org.miracum</groupId>
     <artifactId>kafka-fhir-serializer</artifactId>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
 </dependency>
 ```
 
-### Gradle
-
-```groovy
-// https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
-implementation "org.miracum:kafka-fhir-serializer:2.0.1"
-```
+<!-- x-release-please-end -->
 
 ## Usage
 
@@ -42,13 +50,12 @@ spring:
 
 ## Development
 
-### Release
+The project uses <https://github.com/googleapis/release-please> for versioning.
 
-See <https://central.sonatype.org/publish/publish-guide/> for a general overview.
-
-1. update version in `build.gradle` to a release version (ie. without the `-SNAPSHOT`) and update the version in the `README.md` as well
+1. work on fixes and features in a seperate fork or branch
 1. commit the changes
-1. create a GitHub release for the previous commit
-1. the CI should now run and publish a new package
-1. follow the instructions over at <https://central.sonatype.org/publish/release/> to promote the package from staging to the release repo
-1. increment the version number in `build.gradle` to a new snapshot version (i.e. 2.0.0-SNAPSHOT) and continue development
+1. create a pull request against the master branch
+1. once reviewed and merged, a new PR should appear to release the changes as a new version
+1. merge this PR to create the release on both GitHub and publish to Maven central
+
+See <https://central.sonatype.org/publish/publish-portal-guide/> for a general overview.
