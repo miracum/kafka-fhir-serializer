@@ -6,10 +6,12 @@ plugins {
     id 'signing'
     id 'com.diffplug.spotless' version '7.0.3'
     id 'jacoco'
+    id 'io.gitee.pkmer.sonatype-central-publisher' version '1.1.0'
+
 }
 
 group = 'org.miracum'
-version = '2.0.2'
+version = '2.0.2' // x-release-please-version
 
 java {
     withJavadocJar()
@@ -79,7 +81,7 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:git://github.com/miracum/kafka-fhir-serializer.git'
+                    connection = 'scm:git:https://github.com/miracum/kafka-fhir-serializer.git'
                     developerConnection = 'scm:git:ssh://github.com:miracum/kafka-fhir-serializer.git'
                     url = 'https://github.com/miracum/kafka-fhir-serializer'
                 }
@@ -88,13 +90,8 @@ publishing {
     }
     repositories {
         maven {
-            def releasesRepoUrl = 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/'
-            def snapshotsRepoUrl = 'https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots/'
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username = System.getenv('OSSRH_USERNAME')
-                password = System.getenv('OSSRH_PASSWORD')
-            }
+            name = "Local"
+            url = layout.buildDirectory.dir('repos/bundles')
         }
     }
 }
@@ -110,6 +107,19 @@ signing {
     def signingPassword = System.getenv('MIRACUM_SIGNING_KEY_PASSPHRASE')
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign publishing.publications.mavenJava
+}
+
+pkmerBoot {
+    sonatypeMavenCentral{
+        // the same with publishing.repositories.maven.url in the configuration.
+        stagingRepository = layout.buildDirectory.dir("repos/bundles")
+        /**
+         * get username and password from
+         * <a href="https://central.sonatype.com/account"> central sonatype account</a>
+         */
+        username = System.getenv('OSSRH_USERNAME')
+        password = System.getenv('OSSRH_PASSWORD')
+    }
 }
 
 spotless {
