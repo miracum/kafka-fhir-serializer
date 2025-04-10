@@ -31,11 +31,9 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@06832c7b30a0129d7fb559bcc6e43d26f6374244 # v4.3.1
 
-      # Note that the publish task currently only publishes the package locally to build/repos/bundles
       - name: Build with Gradle
         run: |
           ./gradlew build
-          ./gradlew publish
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
@@ -51,6 +49,7 @@ jobs:
       - name: Publish to central
         if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
         run: |
+          ./gradlew publish
           ./gradlew publishToMavenCentralPortal
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
