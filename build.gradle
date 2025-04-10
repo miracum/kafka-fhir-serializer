@@ -7,7 +7,6 @@ plugins {
     id 'com.diffplug.spotless' version '7.0.3'
     id 'jacoco'
     id 'io.gitee.pkmer.sonatype-central-publisher' version '1.1.0'
-
 }
 
 group = 'org.miracum'
@@ -90,7 +89,7 @@ publishing {
     }
     repositories {
         maven {
-            name = "Local"
+            name = 'Local'
             url = layout.buildDirectory.dir('repos/bundles')
         }
     }
@@ -110,9 +109,9 @@ signing {
 }
 
 pkmerBoot {
-    sonatypeMavenCentral{
+    sonatypeMavenCentral {
         // the same with publishing.repositories.maven.url in the configuration.
-        stagingRepository = layout.buildDirectory.dir("repos/bundles")
+        stagingRepository = layout.buildDirectory.dir('repos/bundles')
         /**
          * get username and password from
          * <a href="https://central.sonatype.com/account"> central sonatype account</a>
