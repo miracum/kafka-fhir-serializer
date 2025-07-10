@@ -5,7 +5,6 @@ import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_K
 import ca.uhn.fhir.context.FhirContext;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import java.util.Objects;
 import org.apache.kafka.common.header.Headers;
 import org.apache.kafka.common.serialization.Serializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
@@ -81,7 +80,9 @@ public class KafkaFhirSerializer implements Serializer<IBaseResource> {
 
   @Override
   public byte[] serialize(final String topic, final IBaseResource data) {
-    Objects.requireNonNull(data);
+    if (data == null) {
+      return null;
+    }
 
     return fhirContext
         .newJsonParser()
