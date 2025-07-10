@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.6](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.5...v2.0.6) (2025-07-10)
+
+
+### Bug Fixes
+
+* accepts null values for serialization instead of requireNonNull ([#76](https://github.com/miracum/kafka-fhir-serializer/issues/76)) ([90de205](https://github.com/miracum/kafka-fhir-serializer/commit/90de205bf25caf6d09554764b192a8e4d158a5c4))
+
 ## [2.0.5](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.4...v2.0.5) (2025-05-25)
 
 
