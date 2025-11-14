@@ -58,7 +58,7 @@ jobs:
           MIRACUM_SIGNING_KEY_PASSPHRASE: ${{ secrets.MIRACUM_SIGNING_KEY_PASSPHRASE }}
 
   lint:
-    uses: miracum/.github/.github/workflows/standard-lint.yaml@ca714dd2f958a70aa44fd62a7711321bf88b0236 # v1.16.19
+    uses: miracum/.github/.github/workflows/standard-lint.yaml@254a4584e8b941410909f6c911055891ae053563 # v1.18.2
     permissions:
       contents: read
       pull-requests: write
