@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.0.7](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.6...v2.0.7) (2025-11-19)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#73](https://github.com/miracum/kafka-fhir-serializer/issues/73)) ([538735f](https://github.com/miracum/kafka-fhir-serializer/commit/538735fc0ba9ba699f502c34aea0ba5641b6fa17))
+* **deps:** update all non-major dependencies ([#86](https://github.com/miracum/kafka-fhir-serializer/issues/86)) ([0bca7f9](https://github.com/miracum/kafka-fhir-serializer/commit/0bca7f9df381f884e84ab60f70d1572ca21c181c))
+* **deps:** update junit-framework monorepo to v6 ([#84](https://github.com/miracum/kafka-fhir-serializer/issues/84)) ([e889af9](https://github.com/miracum/kafka-fhir-serializer/commit/e889af93b38b38998cb22766096c9d85ed41fbca))
+
 ## [2.0.6](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.5...v2.0.6) (2025-07-10)
 
 
