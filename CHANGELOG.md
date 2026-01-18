@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.8](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.7...v2.0.8) (2026-01-18)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#89](https://github.com/miracum/kafka-fhir-serializer/issues/89)) ([ac7620b](https://github.com/miracum/kafka-fhir-serializer/commit/ac7620b96927daf487858d780c426147a7a307b7))
+
 ## [2.0.7](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.6...v2.0.7) (2025-11-19)
 
 
