@@ -149,3 +149,5 @@ megalinter-reports/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+*.received.json
