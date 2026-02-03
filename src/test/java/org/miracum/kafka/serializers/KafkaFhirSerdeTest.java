@@ -94,8 +94,6 @@ class KafkaFhirSerdeTest {
         {"resourceType":"Patient"}""");
 
     sut.close();
-
-    sut.close();
   }
 
   @Test
