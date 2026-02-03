@@ -1,6 +1,7 @@
 package org.miracum.kafka.serializers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import ca.uhn.fhir.context.FhirContext;
 import java.nio.charset.StandardCharsets;
@@ -83,6 +84,17 @@ class KafkaFhirSerdeTest {
     config.put(KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY, fhirContext);
     sut.configure(config, false);
 
+    final var bytes = sut.serializer().serialize(null, new Patient());
+
+    var json = new String(bytes, StandardCharsets.UTF_8);
+
+    assertEquals(
+        json,
+        """
+        {"resourceType":"Patient"}""");
+
+    sut.close();
+
     sut.close();
   }
 
@@ -97,6 +109,28 @@ class KafkaFhirSerdeTest {
     var deserialized = sut.deserializer().deserialize(null, null);
 
     assertEquals(null, deserialized);
+
+    sut.close();
+  }
+
+  @Test
+  void deserialize_withStrictParsingFailingResource_shouldThrowException() {
+    final var sut = new KafkaFhirSerde();
+
+    var jsonBytes =
+        """
+        {
+          "resourceType": "Patient",
+          "id": "hello-patient",
+          "extension": [{
+              "url": null
+          }]
+        }"""
+            .getBytes(StandardCharsets.UTF_8);
+
+    assertThrows(
+        ca.uhn.fhir.parser.DataFormatException.class,
+        () -> sut.deserializer().deserialize(null, jsonBytes));
 
     sut.close();
   }
