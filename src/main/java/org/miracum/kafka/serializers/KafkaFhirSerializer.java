@@ -3,6 +3,7 @@ package org.miracum.kafka.serializers;
 import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.StrictErrorHandler;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import org.apache.kafka.common.header.Headers;
@@ -86,6 +87,7 @@ public class KafkaFhirSerializer implements Serializer<IBaseResource> {
 
     return fhirContext
         .newJsonParser()
+        .setParserErrorHandler(new StrictErrorHandler())
         .encodeResourceToString(data)
         .getBytes(StandardCharsets.UTF_8);
   }

@@ -3,6 +3,7 @@ package org.miracum.kafka.serializers;
 import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY;
 
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.StrictErrorHandler;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import org.apache.kafka.common.header.Headers;
@@ -61,7 +62,10 @@ public class KafkaFhirDeserializer implements Deserializer<IBaseResource> {
       return null;
     }
 
-    return fhirContext.newJsonParser().parseResource(new ByteArrayInputStream(data));
+    return fhirContext
+        .newJsonParser()
+        .setParserErrorHandler(new StrictErrorHandler())
+        .parseResource(new ByteArrayInputStream(data));
   }
 
   @Override
