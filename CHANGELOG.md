@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.8...v3.0.0) (2026-02-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* default to using the strict parser error handle ([#97](https://github.com/miracum/kafka-fhir-serializer/issues/97))
+
+### Features
+
+* default to using the strict parser error handle ([#97](https://github.com/miracum/kafka-fhir-serializer/issues/97)) ([9844164](https://github.com/miracum/kafka-fhir-serializer/commit/984416429e3c2aad488f58202d98f4a23456fe1b))
+
+
+### Bug Fixes
+
+* **deps:** update dependency com.approvaltests:approvaltests to v26.6.0 ([#95](https://github.com/miracum/kafka-fhir-serializer/issues/95)) ([8e228d9](https://github.com/miracum/kafka-fhir-serializer/commit/8e228d97a90ee55256cf9cb2f18785c6b93811cf))
+
 ## [2.0.8](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.7...v2.0.8) (2026-01-18)
 
 
