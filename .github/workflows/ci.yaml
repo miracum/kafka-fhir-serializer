@@ -27,10 +27,10 @@ jobs:
           distribution: "temurin"
           cache: "gradle"
 
-      - uses: gradle/actions/wrapper-validation@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
+      - uses: gradle/actions/wrapper-validation@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
+        uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
 
       - name: Build with Gradle
         run: |
@@ -59,7 +59,7 @@ jobs:
           MIRACUM_SIGNING_KEY_PASSPHRASE: ${{ secrets.MIRACUM_SIGNING_KEY_PASSPHRASE }}
 
   lint:
-    uses: miracum/.github/.github/workflows/standard-lint.yaml@8d3203b6598feaa0c20f26351cc118bd4a158197 # v1.20.0
+    uses: miracum/.github/.github/workflows/standard-lint.yaml@e80245abb031a27f87d0e07eeb6f5f54a82a46b8 # v1.20.4
     permissions:
       contents: read
       pull-requests: write
