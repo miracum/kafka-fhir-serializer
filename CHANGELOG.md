@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.0.1](https://github.com/miracum/kafka-fhir-serializer/compare/v3.0.0...v3.0.1) (2026-03-29)
+
+
+### Bug Fixes
+
+* **deps:** update all non-major dependencies ([#99](https://github.com/miracum/kafka-fhir-serializer/issues/99)) ([7d6a894](https://github.com/miracum/kafka-fhir-serializer/commit/7d6a8945c44680ba0faca965be5143d55930ebf6))
+* **deps:** update dependency com.approvaltests:approvaltests to v30 ([#104](https://github.com/miracum/kafka-fhir-serializer/issues/104)) ([63d2659](https://github.com/miracum/kafka-fhir-serializer/commit/63d265930e6f36da5fed15670764568258a163ff))
+
 ## [3.0.0](https://github.com/miracum/kafka-fhir-serializer/compare/v2.0.8...v3.0.0) (2026-02-03)
 
 

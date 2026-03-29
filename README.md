@@ -13,7 +13,7 @@ Kafka De-/Serializer for FHIR® resources in JSON format.
 
 ```groovy
 // https://mvnrepository.com/artifact/org.miracum/kafka-fhir-serializer
-implementation "org.miracum:kafka-fhir-serializer:3.0.0"
+implementation "org.miracum:kafka-fhir-serializer:3.0.1"
 ```
 
 <!-- x-release-please-end -->
@@ -27,7 +27,7 @@ implementation "org.miracum:kafka-fhir-serializer:3.0.0"
 <dependency>
     <groupId>org.miracum</groupId>
     <artifactId>kafka-fhir-serializer</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
 </dependency>
 ```
 
