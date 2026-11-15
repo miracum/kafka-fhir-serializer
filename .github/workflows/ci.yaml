@@ -32,20 +32,19 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
 
-      - name: Build with Gradle
+      # also runs the tests, the coverage report and verification, and the formatting check
+      - name: Build and test with Gradle
         run: |
           ./gradlew build
 
       - uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        # keep the test and coverage reports if the build failed
+        if: ${{ !cancelled() }}
         with:
           name: package
-          path: build/
-
-      - name: Run Tests
-        run: ./gradlew test
-
-      - name: Run Test Coverage
-        run: ./gradlew jacocoTestReport
+          path: |
+            build/libs/
+            build/reports/
 
       - name: Publish to central
         if: ${{ github.event_name == 'release' && github.event.action == 'created' }}

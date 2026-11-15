@@ -1,104 +1,63 @@
 package org.miracum.kafka.serializers;
 
-import static org.miracum.kafka.serializers.KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY;
-
-import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.parser.StrictErrorHandler;
+import ca.uhn.fhir.parser.DataFormatException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import org.apache.kafka.common.header.Headers;
+import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Serializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
- * A Kafka serializer for FHIR (Fast Healthcare Interoperability Resources) resources. This
- * serializer is designed to convert FHIR resources into JSON-encoded byte arrays for use with
- * Kafka. It supports FHIR R4 by default but allows customization of the FHIR context through
- * configuration.
+ * A Kafka serializer that encodes HAPI FHIR resources as UTF-8 JSON.
  *
- * <p>Usage:
+ * <p>FHIR R4 is used by default, which requires {@code hapi-fhir-structures-r4} on the classpath. A
+ * different FHIR version or context, and the strictness of the parser, can be set using the
+ * configuration keys defined in {@link KafkaFhirSerde}.
  *
- * <ul>
- *   <li>By default, the serializer uses the R4 FHIR context.
- *   <li>To customize the FHIR context, provide a custom context using the configuration key {@code
- *       CONFIG_FHIR_CONTEXT_KEY}.
- * </ul>
+ * <p>Instances are safe for use by multiple threads once configured.
  *
- * <p>Thread Safety:
- *
- * <ul>
- *   <li>The default FHIR context is initialized in a thread-safe manner using a static
- *       initialization block.
- *   <li>However, the serializer instance itself is not thread-safe if the FHIR context is modified
- *       after initialization.
- * </ul>
- *
- * <p>Methods:
- *
- * <ul>
- *   <li>{@link #configure(Map, boolean)}: Configures the serializer, allowing the FHIR context to
- *       be customized.
- *   <li>{@link #serialize(String, IBaseResource)}: Serializes a FHIR resource into a JSON-encoded
- *       byte array.
- *   <li>{@link #serialize(String, Headers, IBaseResource)}: Overloaded method to serialize a FHIR
- *       resource with Kafka headers (delegates to the primary serialize method).
- *   <li>{@link #close()}: Closes the serializer (no-op in this implementation).
- * </ul>
- *
- * <p>Dependencies:
- *
- * <ul>
- *   <li>Requires the HAPI FHIR library for FHIR context and JSON serialization.
- * </ul>
- *
- * @see org.apache.kafka.common.serialization.Serializer
+ * @see KafkaFhirSerde#CONFIG_FHIR_CONTEXT_KEY
+ * @see KafkaFhirSerde#CONFIG_FHIR_VERSION_KEY
+ * @see KafkaFhirSerde#CONFIG_FHIR_PARSER_STRICT_KEY
  */
 public class KafkaFhirSerializer implements Serializer<IBaseResource> {
-  private static final FhirContext defaultFhirContext;
+  private final FhirParserFactory parserFactory = new FhirParserFactory();
 
-  // static initialization blocks are executed by the JVM in a thread-safe manner.
-  static {
-    defaultFhirContext = FhirContext.forR4();
+  /** Creates a serializer using the default settings until {@link #configure} is called. */
+  public KafkaFhirSerializer() {
+    // Kafka instantiates serializers reflectively using the no-arg constructor.
   }
-
-  private FhirContext fhirContext = defaultFhirContext;
 
   /**
-   * Default constructor for KafkaFhirSerializer. This constructor is currently unused but is
-   * provided for potential future use or to satisfy certain serialization/deserialization
-   * frameworks that require a no-argument constructor.
+   * Configures the FHIR context and parser used by this serializer.
+   *
+   * @throws org.apache.kafka.common.config.ConfigException if a setting has an unsupported type or
+   *     value
    */
-  public KafkaFhirSerializer() {
-    // unused
-  }
-
   @Override
   public void configure(final Map<String, ?> configs, final boolean isKey) {
-    if (configs.containsKey(CONFIG_FHIR_CONTEXT_KEY)) {
-      fhirContext = (FhirContext) configs.get(CONFIG_FHIR_CONTEXT_KEY);
-    }
+    parserFactory.configure(configs);
   }
 
+  /**
+   * Encodes the given resource as UTF-8 JSON.
+   *
+   * @return the encoded resource, or {@code null} if {@code data} is {@code null}
+   * @throws SerializationException if the resource can't be encoded
+   */
   @Override
   public byte[] serialize(final String topic, final IBaseResource data) {
     if (data == null) {
       return null;
     }
 
-    return fhirContext
-        .newJsonParser()
-        .setParserErrorHandler(new StrictErrorHandler())
-        .encodeResourceToString(data)
-        .getBytes(StandardCharsets.UTF_8);
-  }
-
-  @Override
-  public byte[] serialize(final String topic, final Headers headers, final IBaseResource data) {
-    return serialize(topic, data);
-  }
-
-  @Override
-  public void close() {
-    // empty
+    try {
+      return parserFactory
+          .newJsonParser()
+          .encodeResourceToString(data)
+          .getBytes(StandardCharsets.UTF_8);
+    } catch (final DataFormatException e) {
+      throw new SerializationException("Failed to serialize FHIR resource for topic " + topic, e);
+    }
   }
 }

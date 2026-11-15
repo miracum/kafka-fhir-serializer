@@ -35,8 +35,14 @@ implementation "org.miracum:kafka-fhir-serializer:3.0.0"
 
 ## Usage
 
-You can find a real-life usage of this library over at <https://github.com/miracum/fhir-gateway> and
-<https://github.com/miracum/kafka-fhir-to-server>.
+Requires Java 21 or later.
+
+The library provides `KafkaFhirSerializer`, `KafkaFhirDeserializer`, and `KafkaFhirSerde` (for Kafka Streams) in the
+`org.miracum.kafka.serializers` package. Resources are encoded as UTF-8 JSON and deserialized as HAPI FHIR
+`IBaseResource` objects.
+
+FHIR R4 is used by default. The HAPI FHIR structures aren't included as a dependency, so add the ones for the
+FHIR version you are using to your project, for example `ca.uhn.hapi.fhir:hapi-fhir-structures-r4`.
 
 In Spring Boot:
 
@@ -46,13 +52,56 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.miracum.kafka.serializers.KafkaFhirSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.miracum.kafka.serializers.KafkaFhirDeserializer
 ```
+
+You can find a real-life usage of this library over at <https://github.com/miracum/fhir-gateway> and
+<https://github.com/miracum/kafka-fhir-to-server>.
+
+### Configuration
+
+The serializer, deserializer, and serde are configured using the Kafka client configuration:
+
+- `fhir.version`: the name of the FHIR version to use, such as `R4`, `R4B`, or `R5`. Defaults to `R4`.
+- `fhir.context`: the `FhirContext` instance to use. Takes precedence over `fhir.version`.
+- `fhir.parser.strict`: whether invalid resources are rejected with an error. Defaults to `true`.
+
+For example, to use FHIR R5 and lenient parsing in Spring Boot:
+
+```yaml
+spring:
+  kafka:
+    consumer:
+      value-deserializer: org.miracum.kafka.serializers.KafkaFhirDeserializer
+      properties:
+        fhir.version: R5
+        fhir.parser.strict: false
+```
+
+`fhir.context` has to be a `FhirContext` object, so it can only be set programmatically. Use it to share an already
+customized context:
+
+```java
+var config = new HashMap<String, Object>();
+config.put(KafkaFhirSerde.CONFIG_FHIR_CONTEXT_KEY, fhirContext);
+
+var serde = new KafkaFhirSerde();
+serde.configure(config, false);
+```
+
+If `fhir.parser.strict` is `false`, the parser error handler of the FHIR context is used, which is lenient unless it was
+changed.
+
+Resources that can't be serialized or deserialized cause a Kafka `SerializationException`, with HAPI's
+`DataFormatException` as its cause.
 
 ## Development
 
 The project uses <https://github.com/googleapis/release-please> for versioning.
 
-1. work on fixes and features in a seperate fork or branch
+1. work on fixes and features in a separate fork or branch
 1. commit the changes
 1. create a pull request against the master branch
 1. once reviewed and merged, a new PR should appear to release the changes as a new version
