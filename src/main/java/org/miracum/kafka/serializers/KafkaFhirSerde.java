@@ -7,40 +7,50 @@ import org.apache.kafka.common.serialization.Serializer;
 import org.hl7.fhir.instance.model.api.IBaseResource;
 
 /**
- * A Kafka Serializer/Deserializer (Serde) implementation for FHIR resources. This class provides
- * functionality to serialize and deserialize FHIR resources (IBaseResource) for use with Apache
- * Kafka.
+ * A Kafka {@link Serde} for HAPI FHIR resources encoded as JSON, combining {@link
+ * KafkaFhirSerializer} and {@link KafkaFhirDeserializer}.
  *
- * <p>The Serde can be configured using the following configuration parameter:
+ * <p>The serde, as well as the serializer and deserializer on their own, support the following
+ * configuration keys:
  *
  * <ul>
- *   <li>{@value #CONFIG_FHIR_CONTEXT_KEY}: The FHIR context configuration key
+ *   <li>{@value #CONFIG_FHIR_CONTEXT_KEY}: the {@code FhirContext} instance to use
+ *   <li>{@value #CONFIG_FHIR_VERSION_KEY}: the name of the FHIR version to use, if no context is
+ *       set
+ *   <li>{@value #CONFIG_FHIR_PARSER_STRICT_KEY}: whether invalid resources are rejected
  * </ul>
  *
- * <p>This implementation manages both the serialization and deserialization of FHIR resources
- * through {@link KafkaFhirSerializer} and {@link KafkaFhirDeserializer} respectively.
- *
- * @see KafkaFhirSerializer
- * @see KafkaFhirDeserializer
- * @see IBaseResource
- * @see Serde
+ * <p>If neither a context nor a version is configured, FHIR R4 is used.
  */
 public class KafkaFhirSerde implements Serde<IBaseResource> {
   /**
-   * Configuration key for the FHIR context. This key is used to retrieve the FHIR context from the
-   * configuration map.
+   * Configuration key for the {@code ca.uhn.fhir.context.FhirContext} instance to use. Since the
+   * value has to be an object, this can only be set programmatically. Takes precedence over {@value
+   * #CONFIG_FHIR_VERSION_KEY}.
    */
   public static final String CONFIG_FHIR_CONTEXT_KEY = "fhir.context";
+
+  /**
+   * Configuration key for the FHIR version to use. The value is either the case-insensitive name of
+   * a {@code ca.uhn.fhir.context.FhirVersionEnum} constant, such as {@code R4}, {@code R4B} or
+   * {@code R5}, or the constant itself. The matching {@code hapi-fhir-structures-*} library has to
+   * be on the classpath. Defaults to {@code R4}.
+   */
+  public static final String CONFIG_FHIR_VERSION_KEY = "fhir.version";
+
+  /**
+   * Configuration key for whether the parser rejects invalid resources, as a boolean or the string
+   * {@code true} or {@code false}. If {@code false}, the parser error handler of the FHIR context
+   * is used, which is lenient unless it was changed. Defaults to {@code true}.
+   */
+  public static final String CONFIG_FHIR_PARSER_STRICT_KEY = "fhir.parser.strict";
 
   private final KafkaFhirSerializer serializer = new KafkaFhirSerializer();
   private final KafkaFhirDeserializer deserializer = new KafkaFhirDeserializer();
 
-  /**
-   * Default constructor for the KafkaFhirSerde class. This constructor initializes a new instance
-   * of the KafkaFhirSerde without any specific configuration or parameters.
-   */
+  /** Creates a serde using the default settings until {@link #configure} is called. */
   public KafkaFhirSerde() {
-    // unused
+    // Kafka instantiates serdes reflectively using the no-arg constructor.
   }
 
   @Override

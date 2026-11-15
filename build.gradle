@@ -17,18 +17,28 @@ java {
     withSourcesJar()
 }
 
+tasks.withType(JavaCompile).configureEach {
+    // the minimum Java version required by consumers: set explicitly so that it
+    // doesn't silently follow whichever JDK happens to build the release.
+    options.release = 21
+}
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
-    implementation 'ca.uhn.hapi.fhir:hapi-fhir-base:8.8.0'
-    implementation 'org.apache.kafka:kafka-clients:4.2.0'
+    // Types of both libraries are part of the public API (Serializer, IBaseResource, FhirContext, ...),
+    // so they need to be on the compile classpath of consumers.
+    api 'ca.uhn.hapi.fhir:hapi-fhir-base:8.8.0'
+    api 'org.apache.kafka:kafka-clients:4.2.0'
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:6.0.3'
+    // The FHIR structures are deliberately not a dependency of the library itself:
+    // consumers choose the FHIR version(s) they need.
     testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r4:8.8.0'
+    testImplementation 'ca.uhn.hapi.fhir:hapi-fhir-structures-r5:8.8.0'
 
     // Use JUnit Jupiter Engine for testing.
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:6.0.3'
@@ -39,6 +49,7 @@ dependencies {
 test {
     // Use junit platform for unit tests
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacoco {
@@ -46,11 +57,28 @@ jacoco {
 }
 
 jacocoTestReport {
+    dependsOn test
     reports {
         csv.required = true
         html.required = true
         xml.required = true
     }
+}
+
+jacocoTestCoverageVerification {
+    dependsOn test
+    violationRules {
+        rule {
+            limit {
+                counter = 'LINE'
+                minimum = 0.9
+            }
+        }
+    }
+}
+
+check {
+    dependsOn jacocoTestCoverageVerification
 }
 
 publishing {
@@ -106,7 +134,12 @@ javadoc {
 signing {
     def signingKey = System.getenv('MIRACUM_SIGNING_KEY')
     def signingPassword = System.getenv('MIRACUM_SIGNING_KEY_PASSPHRASE')
-    useInMemoryPgpKeys(signingKey, signingPassword)
+    // without a key, e.g. when publishing to a local repository during development,
+    // signing is skipped instead of failing the build.
+    required = signingKey != null
+    if (signingKey) {
+        useInMemoryPgpKeys(signingKey, signingPassword)
+    }
     sign publishing.publications.mavenJava
 }
 
